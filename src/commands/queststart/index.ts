@@ -1,21 +1,20 @@
 import { Message, TextChannel } from "discord.js";
-import { QuestSpeed } from "../../utils/QuestSpeed";
 import { isQuestActive, getQuestCooldown, startQuest } from "../../quest/questManager";
 
-interface StringToQuestSpeed {
-  [key: string]: QuestSpeed
+interface StringToSpeedModifier {
+  [key: string]: number
 }
 
-const mapStringToQuestSpeed: StringToQuestSpeed = {
-  'fast': QuestSpeed.FAST,
-  'slow': QuestSpeed.SLOW
+const mapStringToSpeedModifier: StringToSpeedModifier = {
+  'fast': 1.5,
+  'slow': .5
 }
 
 export default async function handleQuestStart(msg: Message, speed: string) {
   if (!(msg.channel instanceof TextChannel)) return msg.reply(`A Quest can only be started in a Guild TextChannel.`);
   // Map passed speed to Enum Value. If speed isn't specified, assign as Normal. If speed is invalid, return text.
-  const questSpeed = speed ? mapStringToQuestSpeed[speed] : QuestSpeed.NORMAL;
-  if (typeof questSpeed === 'undefined') return msg.channel.send(`Invalid speed specified: ${speed}`);
+  const speedModifier = speed ? mapStringToSpeedModifier[speed] : 1;
+  if (!speedModifier) return msg.channel.send(`Invalid speed specified: ${speed}`);
 
   const guildId = msg.guild.id;
 
@@ -29,5 +28,5 @@ export default async function handleQuestStart(msg: Message, speed: string) {
     }
   }
 
-  startQuest(guildId, msg.channel, questSpeed);
+  startQuest(guildId, msg.channel, speedModifier);
 }

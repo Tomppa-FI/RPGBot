@@ -1,6 +1,5 @@
 import Quest from "./Quest";
 import { TextChannel, Message } from "discord.js";
-import { QuestSpeed, mapQuestSpeedToModifier } from "../utils/QuestSpeed";
 import Player from "../player/Player";
 
 const questMap = new Map<string, Quest>();
@@ -20,8 +19,8 @@ export const addPlayerToQuest = (msg: Message) => {
   questMap.get(msg.guild.id).addPlayer(newPlayer);
 }
 
-export const startQuest = async(guildId: string, channel: TextChannel, questSpeed: QuestSpeed) => {
-  const newQuest = new Quest(channel, questSpeed);
+export const startQuest = async(guildId: string, channel: TextChannel, speedModifier: number) => {
+  const newQuest = new Quest(channel, speedModifier);
   questMap.set(guildId, newQuest);
   try {
     await new Promise(resolve => setTimeout(resolve, 15000));
@@ -30,7 +29,7 @@ export const startQuest = async(guildId: string, channel: TextChannel, questSpee
     console.log(e);
   } finally {
     // Probably needs some future refactoring. 
-    const speedModifier = mapQuestSpeedToModifier[newQuest.getQuestSpeed()];
+    const speedModifier = newQuest.getSpeedModifier();
     newQuest.setCooldown(120000 * speedModifier);
     await new Promise(resolve => setTimeout(resolve, (120000 * speedModifier)));
     questMap.delete(guildId);

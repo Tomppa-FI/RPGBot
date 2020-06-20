@@ -1,17 +1,16 @@
 import { TextChannel } from "discord.js";
-import { QuestSpeed } from "../utils/QuestSpeed";
 import Player from "../player/Player";
 
 export default class Quest {
   private cooldown: number;
   private channel: TextChannel;
-  private questSpeed: QuestSpeed;
+  private speedModifier: number;
   private joinable: boolean;
   private players: Map<string, Player>;
 
-  constructor(channel: TextChannel, questSpeed: QuestSpeed) {
+  constructor(channel: TextChannel, speedModifier: number) {
     this.channel = channel;
-    this.questSpeed = questSpeed;
+    this.speedModifier = speedModifier;
     this.joinable = false;
     this.cooldown = 0;
     this.players = new Map();
@@ -30,7 +29,7 @@ export default class Quest {
     return (this.cooldown - Date.now());
   };
 
-  getQuestSpeed = () => this.questSpeed;
+  getSpeedModifier = () => this.speedModifier;
 
   setCooldown = (cooldown: number) => this.cooldown = Date.now() + cooldown;
 }
