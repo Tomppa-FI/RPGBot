@@ -1,8 +1,12 @@
 import { Client } from "discord.js";
+import getBotInvite from "./utils/botInvite";
 
 const client = new Client();
 client.once('ready', () => {
-  console.log(`Bot Connected to Discord as ${client.user.tag}`);
+  console.log(
+`Bot Connected to Discord as ${client.user.tag}
+${getBotInvite(client.user.id)}`
+  );
 })
 
 try {
