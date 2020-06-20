@@ -1,5 +1,6 @@
 import { Message, TextChannel } from "discord.js";
 import { isQuestActive, getQuestCooldown, startQuest } from "../../quest/questManager";
+import { msToString } from "../../utils/timing";
 
 interface StringToSpeedModifier {
   [key: string]: number
@@ -22,7 +23,7 @@ export default async function handleQuestStart(msg: Message, speed: string) {
     const questCooldown = getQuestCooldown(guildId);
     if (questCooldown) {
       // TODO Cleanup to use Minutes/seconds.
-      return msg.channel.send(`Quests are currently on cooldown. Remaining time - ${Math.round(questCooldown / 1000)} seconds`);
+      return msg.channel.send(`Quests are currently on cooldown. You can begin a new Quest in ${msToString(questCooldown)}`);
     } else {
       return msg.channel.send(`A Quest is already running for this server.`);
     }
