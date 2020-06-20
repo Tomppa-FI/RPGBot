@@ -11,5 +11,12 @@ export default class Quest {
     this.questSpeed = questSpeed;
   }
 
-  getCooldown = () => this.cooldown;
+  getCooldown = () => {
+    if (this.cooldown < Date.now()) return 0;
+    return (this.cooldown - Date.now());
+  };
+
+  getQuestSpeed = () => this.questSpeed;
+
+  setCooldown = (cooldown: number) => this.cooldown = Date.now() + cooldown;
 }

@@ -22,7 +22,8 @@ export default async function handleQuestStart(msg: Message, speed: string) {
   if (isQuestActive(guildId)) {
     const questCooldown = getQuestCooldown(guildId);
     if (questCooldown) {
-      return msg.channel.send(`Quests are currently on cooldown. Remaining time - ${questCooldown}`);
+      // TODO Cleanup to use Minutes/seconds.
+      return msg.channel.send(`Quests are currently on cooldown. Remaining time - ${Math.round(questCooldown / 1000)} seconds`);
     } else {
       return msg.channel.send(`A Quest is already running for this server.`);
     }
