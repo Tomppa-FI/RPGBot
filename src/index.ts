@@ -2,6 +2,7 @@ import { Client } from "discord.js";
 import getBotInvite from "./utils/botInvite";
 import handleInvite from "./commands/invite";
 import handleQuestStart from "./commands/queststart";
+import handleJoin from "./commands/join";
 
 const client = new Client();
 
@@ -23,6 +24,8 @@ client.on('message', msg => {
       return handleInvite(msg);
     case 'queststart': 
       return handleQuestStart(msg, rest[0]);
+    case 'join':
+      return handleJoin(msg);
     default:
       return msg.reply(`Invalid Command: ${cmd}`);
   }
