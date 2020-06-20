@@ -24,6 +24,10 @@ export default class Quest {
 
   getJoinable = () => this.joinable;
 
+  setJoinable = (val: boolean) => {
+    this.joinable = val;
+  }
+
   getCooldown = () => {
     if (this.cooldown < Date.now()) return 0;
     return (this.cooldown - Date.now());
@@ -32,4 +36,8 @@ export default class Quest {
   getSpeedModifier = () => this.speedModifier;
 
   setCooldown = (cooldown: number) => this.cooldown = Date.now() + cooldown;
+
+  sendChannelMessage = (msg: string) => {
+    this.channel.send(msg);
+  }
 }

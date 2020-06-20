@@ -1,6 +1,9 @@
 import Quest from "./Quest";
 import { TextChannel, Message } from "discord.js";
 import Player from "../player/Player";
+import handleBeginning from "./components/beginning";
+import { QuestStartDelayMS } from "../utils/timing";
+import { QuestError } from "../utils/errors";
 
 const questMap = new Map<string, Quest>();
 
@@ -23,15 +26,19 @@ export const startQuest = async(guildId: string, channel: TextChannel, speedModi
   const newQuest = new Quest(channel, speedModifier);
   questMap.set(guildId, newQuest);
   try {
-    await new Promise(resolve => setTimeout(resolve, 15000));
-    console.log("Mock Quest Ended");
-  } catch (e) {
-    console.log(e);
-  } finally {
+    await handleBeginning(newQuest);
+  
     // Probably needs some future refactoring. 
     const speedModifier = newQuest.getSpeedModifier();
-    newQuest.setCooldown(120000 * speedModifier);
-    await new Promise(resolve => setTimeout(resolve, (120000 * speedModifier)));
+    newQuest.setCooldown(QuestStartDelayMS(speedModifier));
+    await new Promise(resolve => setTimeout(resolve, (QuestStartDelayMS(speedModifier))));
+  } catch (e) {
+    if (e instanceof QuestError) {
+      newQuest.sendChannelMessage(e.message);
+    } else {
+      console.log(e);
+    }
+  } finally {
     questMap.delete(guildId);
   }
 }
