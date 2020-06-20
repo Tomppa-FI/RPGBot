@@ -7,8 +7,8 @@ interface StringToSpeedModifier {
 }
 
 const mapStringToSpeedModifier: StringToSpeedModifier = {
-  'fast': 1.5,
-  'slow': .5
+  'fast': .5,
+  'slow': 1.5
 }
 
 export default async function handleQuestStart(msg: Message, speed: string) {
