@@ -1,0 +1,26 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon",
+    "build": "rimraf ./build && tsc",
+    "test": "mocha -r ts-node/register tests/**/*.test.ts",
+    "start": "yarn build && node ./build/index.js"
+  },
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^14.0.13",
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  }
+}
