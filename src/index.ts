@@ -1,6 +1,7 @@
 import { Client } from "discord.js";
 import getBotInvite from "./utils/botInvite";
 import handleInvite from "./commands/invite";
+import handleQuestStart from "./commands/queststart";
 
 const client = new Client();
 
@@ -20,6 +21,8 @@ client.on('message', msg => {
   switch (cmd) {
     case 'invite':
       return handleInvite(msg);
+    case 'queststart': 
+      return handleQuestStart(msg, rest[0]);
     default:
       return msg.reply(`Invalid Command: ${cmd}`);
   }
